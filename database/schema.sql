@@ -23,6 +23,7 @@ personal_interest TEXT
 );
 
 CREATE TABLE Mentees (
+
 id SERIAL PRIMARY KEY,
 username VARCHAR(30) NOT NULL,
 education text,
@@ -43,3 +44,6 @@ CREATE TABLE mentorship(
 mentors_id INTEGER,
 mentees_id INTEGER
 );
+
+
+
