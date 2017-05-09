@@ -17,18 +17,34 @@ app.get('/home', (req, res) => {
 	console.log('checking in from home!')
 	res.render('home');
 })
+app.get('/', (req, res) => {
+	console.log('checking in from home!')
+	res.render('home');
+})
 app.get('/signup', (req, res) => {
 	console.log('checking in from signup!')
 	res.render('mentee_signup');
+})
+app.get('/edit/:id', (req, res) => {
+	queries.getOnementee(req.params.id)
+	.then( mentee => {
+		res.render('mentee_edit', {mentee})
+	})
+})
+app.post('/delete/:id', (req, res) => {
+	queries.delete(req.params.id)
+	.then( edits => {
+		res.render('home', {edits})
+	})
 })
 
 app.post('/signup', (req, res) =>{
 	console.log('req.body:' , req.body);
 	queries.create(req.body)
-	// .then(mentee => {
+	 .then(mentee => {
 		console.log('this is the req.body', req.body)
 		res.redirect('home')
-	// })
+	 })
 })
 
 const port = process.env.PORT || 3000;
