@@ -17,6 +17,19 @@ app.get('/home', (req, res) => {
 	console.log('checking in from home!')
 	res.render('home');
 })
+app.get('/signup', (req, res) => {
+	console.log('checking in from signup!')
+	res.render('mentee_signup');
+})
+
+app.post('/signup', (req, res) =>{
+	console.log('req.body:' , req.body);
+	queries.create(req.body)
+	// .then(mentee => {
+		console.log('this is the req.body', req.body)
+		res.redirect('home')
+	// })
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
