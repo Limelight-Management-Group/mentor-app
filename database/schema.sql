@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS mentors;
 CREATE TABLE Mentors(
 id SERIAL PRIMARY KEY,
 username VARCHAR(30) NOT NULL,
+password TEXT,
 education TEXT,
 career_path TEXT,
 f_name TEXT,
@@ -23,11 +24,12 @@ bio TEXT,
 veteran BOOLEAN,
 personal_interest TEXT
 );
-
+DROP TABLE IF EXISTS mentees;
 CREATE TABLE Mentees (
 
 id SERIAL PRIMARY KEY,
 username VARCHAR(30) NOT NULL,
+password TEXT,
 education text,
 career_path text,
 f_name text,
