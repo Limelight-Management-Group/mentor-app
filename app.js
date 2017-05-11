@@ -3,11 +3,13 @@ const app =express();
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var morgan = require('morgan');
-var User = require('./models/user');
+// var User = require('./models/user');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const router = express.Router()
 const queries = require('./database/db')
+// var bcrypt = require('bcrypt');
+
 
 // const menteeController = require('/public/../contollers/mentee_controller.js');
 // set morgan to log info about our requests for development use.
@@ -97,9 +99,15 @@ app.route('/login')
     	console.log('checking in from login')
         var mentee = req.body
         console.log('username', mentee.username)
-        queries.getOnementee(mentee)
-        .then(function (user) {
-            console.log(' this is the req.session:', req.session)
+       console.log(queries.getOnementee(mentee))
+       console.log('this is the mentee', mentee)
+       console.log('these are the params: ', req.params)
+       console.log('this is the req.body: ', req.body)
+       const qresult = queries.getOnementee(mentee)
+       console.log('this is the qresult:', qresult)
+       qresult
+        .then(function (user){
+            // console.log(' this is the req.session:', req.session)
         	console.log('this is user!!!!!!', user)
             	console.log((mentee.password))
             	console.log((mentee.username))
@@ -118,7 +126,7 @@ app.route('/login')
                 res.redirect('/login');
         	}
             
-        });
+        }).catch(console.log)
     });
 
 // route for user's dashboard
