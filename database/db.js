@@ -34,6 +34,12 @@ const queries = {
     console.log("this is the result: ", result)
     return result
   },
+    getOnePhoto(photos) {
+    console.log('photo from photos', photo)
+    const result = db.one('SELECT * FROM mentees WHERE image = $1', [mentee.image]);
+    console.log("this is the result: ", result)
+    return result
+  }
 };
 
 module.exports = queries;
