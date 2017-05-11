@@ -36,7 +36,7 @@ app.use(session({
     }
 }));
 
-// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
+//This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
     if (req.cookies.user_sid && !req.session.user) {
@@ -93,6 +93,7 @@ app.route('/mentee_signup')
 // route for user Login
 app.route('/login')
    .get(sessionChecker, (req, res) => {
+    console.log('this is the session Checker', sessionChecker)
         res.render(__dirname + '/views/login.ejs');
     })
     .post((req, res) => {
@@ -114,6 +115,7 @@ app.route('/login')
             	console.log(user.username)
             if ((!user === null || user.username === (req.body.username)) && (( user.password === mentee.password))){
             	console.log("yo! You're logged-in!!!!")
+                // console.log('this is the session', session)
                 res.redirect('/profile');
             // } else if (!user.validPassword(mentee.password)) {
             //     console.log('in the else if!!!!!')
@@ -159,7 +161,10 @@ app.post('/delete/:id', (req, res) => {
 	})
 })
 
-
+const ring = function(){
+    console.log('this is here! Ya feel me??')
+}
+ring();
 
 app.post('/signup', (req, res) =>{
 	console.log('req.body:' , req.body);
