@@ -30,7 +30,9 @@ const queries = {
   },
   getOnementee(mentee) {
     console.log('mentee from getOnementee', mentee)
-    return db.one('SELECT * FROM mentees WHERE username = $1', [mentee.username]);
+    const result = db.one('SELECT * FROM mentees WHERE username = $1', [mentee.username]);
+    console.log("this is the result: ", result)
+    return result
   },
 };
 
