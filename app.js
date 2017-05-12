@@ -10,6 +10,12 @@ const router = express.Router()
 const queries = require('./database/db')
 // var bcrypt = require('bcrypt');
 
+//Properties of a component
+//state
+// lifecycle event
+// UI associated with render
+
+
 
 // const menteeController = require('/public/../contollers/mentee_controller.js');
 // set morgan to log info about our requests for development use.
@@ -132,13 +138,10 @@ app.route('/login')
     });
 
 // route for user's dashboard
-app.get('/dashboard', (req, res) => {
-    if (req.session.user && req.cookies.user_sid) {
-        res.render(__dirname + '/dashboard.ejs');
-    } else {
-        res.redirect('/');
-    }
+app.get('/react_profile', (req, res) => {
+        res.render('react_profile');
 });
+
 
 app.get('/mentor_signup', (req, res) => {
 	console.log('checking in from mentor home!')
