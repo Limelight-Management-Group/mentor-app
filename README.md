@@ -35,11 +35,13 @@
 ### then...
     $ npm install
 ### You then can create the webpack with the following command:
-    $ npm run start-react
+    $ npm run create
+### You can now use the command to start-react:
+    start-react
 ### You can now run your server with:
 #### If you have nodemon installed you can:
     $ nodemon app 
-#### If you do not, you can install or just use our start script
+#### If you do not, you can install or just use our start script:
     $ npm run start-dev
 ### If this worked correctly, you should see:
     > mentor-app@1.0.0 start-dev /Users/waynebanks/Desktop/dev/mentor-app
