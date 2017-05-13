@@ -37,7 +37,7 @@
 ### You then can create the webpack with the following command:
     $ npm run create
 ### You can now use the command to start-react:
-    start-react
+    $ npm run start-react
 ### You can now run your server with:
 #### If you have nodemon installed you can:
     $ nodemon app 
