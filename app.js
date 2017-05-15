@@ -49,7 +49,7 @@ app.use(session({
 app.use((req, res, next) => {
     console.log('this is the usid: ', req.cookies.user_sid)
     console.log('this is the session: ', req.session.user_sid)
-    if (req.cookies.user_sid && !req.session.user_sid) {
+    if (req.cookies.user_sid && req.session.user_sid) {
         console.log('id check')
         res.clearCookie('user_sid');        
     }
@@ -59,7 +59,9 @@ app.use((req, res, next) => {
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
-    if (req.session.user && req.cookies.id) {
+    if (req.cookies.user_sid) {
+        console.log('in the session checker- req!!!!!: ', req)
+        console.log('in the session checker- res!!!!!: ', res)
         console.log('im in the if of session')
         res.redirect('/dashboard');
     } else {
@@ -125,7 +127,7 @@ app.route('/mentee_signup')
 
 });
 // route for user Login
-app.get('/login', (req, res) => {
+app.get('/login', sessionChecker, (req, res) => {
     // console.log('this is the session Checker', sessionChecker)
         res.render(__dirname + '/views/login.ejs');
     })
@@ -259,8 +261,8 @@ app.post('/signup', (req, res) =>{
 	queries.create(req.body)
 	 .then(mentee => {
 		console.log('this is the req.body', req.body)
-		res.redirect('profile')
-	 })
+		res.render('profile')
+	 }).catch('error')
 })
 
 const port = process.env.PORT || 3000;
