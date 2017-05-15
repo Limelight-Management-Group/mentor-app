@@ -3,11 +3,13 @@
 	
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="/css/style.css">
+ <title><%= this.title %></title>
 </head>
 
 <body>
+<%= this.body %><
 <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid row">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -15,7 +17,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!-- <a class="navbar-brand imgContainer col-md-6 col-xs-6" href="/#top"><img id="logo-nav" src="/images/limelight logo.jpg"></a> -->
+        
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -29,7 +31,7 @@
     <br><br><br>
 <div class="container">
 <a href="/login"><button id="sign-in" class="btn btn-basic">Sign_In</button></a>
-
+<%= this.title %>
 <h1> Welcome to the mentor app. Sign up as a mentor or mentee to get started </h1>
 <br><br><br>
 
