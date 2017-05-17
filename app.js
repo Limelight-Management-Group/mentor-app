@@ -47,8 +47,8 @@ app.use(session({
 //This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 app.use((req, res, next) => {
-    console.log('this is the usid: ', req.cookies.user_sid)
-    console.log('this is the session: ', req.session.user_sid)
+    console.log('this is the usid: ', req.cookies)
+    console.log('this is the session: ', req.session)
     if (req.cookies.user_sid && req.session.user_sid) {
         console.log('id check')
         res.clearCookie('user_sid');        
@@ -62,11 +62,13 @@ var sessionChecker = (req, res, next) => {
     if (req.cookies.user_sid) {
         console.log('in the session checker- req!!!!!: ', req)
         console.log('in the session checker- res!!!!!: ', res)
-        console.log('im in the if of session')
+        console.log('im in the if of sessionsion')
         res.redirect('/dashboard');
     } else {
         console.log('this is the user session ', req.session.user)
         console.log("I'm in the else condition")
+        console.log('in the session checker- req!!!!!: ', req)
+        console.log('in the session checker- res!!!!!: ', res)
         next();
     }    
 };
@@ -80,7 +82,7 @@ app.get('/', sessionChecker, (req, res) => {
     res.render('home');
 })
 
-app.post('/profile', (req, res) => {
+app.post('/profile', sessionChecker, (req, res) => {
     console.log('this is the req.body!!!!!! ', req.body)
     queries.getOnementee(req.body)
     .then( mentee => {

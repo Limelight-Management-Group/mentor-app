@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 // React Components
 class App extends React.Component {
     render() {
-        return <div>I am working with React!</div>
+        return React.DOM.h1(null, "I am working with React!");
 
     }
 }
