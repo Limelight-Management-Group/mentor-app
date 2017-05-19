@@ -36,6 +36,7 @@
     "express-session": "^1.15.2",
     "jsonwebtoken": "^7.4.0",
     "morgan": "^1.8.1",
+    "path": "^0.12.7",
     "pg": "^6.1.5",
     "pg-promise": "^5.7.1",
     "react": "^15.5.4",
