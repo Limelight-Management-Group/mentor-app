@@ -37,6 +37,7 @@
     "jsonwebtoken": "^7.4.0",
     "morgan": "^1.8.1",
     "pg": "^6.1.5",
+    "pg-promise": "^5.7.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "sequelize": "^3.30.4",
