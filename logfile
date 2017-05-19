@@ -1,0 +1,5 @@
+LOG:  database system was shut down at 2017-05-17 20:03:21 PDT
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  database "jankiewicz" does not exist
