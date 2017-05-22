@@ -68,9 +68,9 @@ var sessionChecker = (req, res, next) => {
         console.log('in the session checker- req!!!!!: ', req)
         console.log('in the session checker- res!!!!!: ', res)
         console.log('im in the if of session')
-        res.redirect('/dashboard');
+        res.redirect('/');
     } else {
-        console.log('this is the user session ', req.session.user)
+        console.log('this is the user session ', req.session)
         console.log("I'm in the else condition")
         next();
     }    
@@ -80,26 +80,28 @@ app.get('/home', (req, res) => {
 	console.log('checking in from home! I should have title')
 	res.render('home');
 })
-app.get('/', sessionChecker, (req, res) => {
+app.get('/', (req, res) => {
     console.log('checking in from home!')
     res.render('home');
 })
 
-app.post('/profile', (req, res) => {
-    console.log('this is the req.body!!!!!! ', req.body)
-    queries.getOnementee(req.body)
+app.post('/profile', sessionChecker, (req, res) => {
+    console.log('this is the logins req.body!!!!!! ', req.body)
+    queries.getOnementee(req.params)
     .then( mentee => {
     console.log('this is the value of mentee: ', mentee)
 	res.render('profile', {mentee: mentee});
     })
 })
-// app.get('/profile', (req, res) => {
-//     // console.log('this is the req.body!!!!!! ', req.body)
-    
-//     // console.log('this is the value of mentee: ', mentee)
-//     res.render('profile');
+app.get('/profile', (req, res) => {
+    console.log('this is the req.body!!!!!! ', req.body)
+    queries.getOnementee(req.params)
+    .then( mentee => {
+    console.log('this is the value of mentee: ', mentee)
+    res.render('profile', {mentee: mentee});
+    })
    
-// })
+})
 
 app.get('/edit/:id', function(req, res){
         queries.getOnementee(req.params.id)   
@@ -132,24 +134,23 @@ app.route('/mentee_signup')
 
 });
 // route for user Login
-app.get('/login', sessionChecker, (req, res) => {
+app.get('/login', (req, res) => {
     // console.log('this is the session Checker', sessionChecker)
         res.render(__dirname + '/views/login.ejs');
-    })
-    .post((req, res) => {
-    	console.log('checking in from login')
+});
+app.post('/login', (req, res) => {
+    	console.log('sent the post')
         var mentee = req.body
+        console.log(mentee)
        //  console.log('username', mentee.username)
 
        // console.log('this is the req.body: ', req.body)
        queries.getOnementee(mentee)
-       // console.log('this is the qresult:', qresult)
-       
         .then(function (user){
-            // console.log(' this is the req.session:', req.session)
+             console.log('this si the user: ', user)
 
-            	// console.log(user.username)
-            if ((!user === null || user.username === (req.body.username)) && (( user.password === mentee.password))){
+            	// console.log(mentee.menteename)
+            if (( mentee.username === req.body.username && mentee.password === req.body.password)){
             	console.log("yo! You're logged-in!!!!")
                 // console.log('this is the session', session)
                 res.redirect('/profile');
@@ -158,7 +159,7 @@ app.get('/login', sessionChecker, (req, res) => {
         	} else {
 
                 console.log('I did not login!!!:')
-                // req.session.user = user.dataValues;
+                // req.session.mentee = user.dataValues;
                 res.render('profile');
         	}
             
@@ -168,8 +169,13 @@ app.get('/login', sessionChecker, (req, res) => {
 
 
 
-app.get('/react_profile', (req, res) => {
+app.get('/react_profile', sessionChecker, (req, res) => {
+    queries.getOnementee(req.params)
+    .then( mentee => {
+
         res.render('react_profile');
+        
+    })
 });
 
 

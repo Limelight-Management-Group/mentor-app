@@ -29,9 +29,8 @@ const queries = {
   },
   getOnementee(mentee) {
     console.log(' this is the mentee from getOnementee, before the query', mentee)
-    const result = db.one('SELECT * FROM mentees WHERE username = $1', [mentee.username]);
-    // console.log("this is the result: ", result)
-    return result
+    let user = db.one('SELECT * FROM mentees WHERE username = $1 AND password = $2', [mentee.login_username, mentee.login_password]);
+    return user
   },
     getOnePhoto(photos) {
     console.log('photo from photos', photo)
