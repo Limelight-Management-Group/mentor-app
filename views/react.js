@@ -1,15 +1,11 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+import Photos from './photos'
+import APP from './app' 
 
 
-// React Components
-class App extends React.Component {
-    render() {
-        return <div>I am working with React!</div>
-
-    }
-}
 ReactDOM.render(
 <App/>, 
 document.getElementById('app')
 );
+

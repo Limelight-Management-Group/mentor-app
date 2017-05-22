@@ -1,28 +1,35 @@
-<% include ./header/head %>
-  <div class="container-fluid">
-  <% include ./header/nav %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+</head>
+<body>
+
 
 <div class="container">
 
-<h1><header>Mentor Sign up Form</header></h1>
+<h1><header>mentor Sign up Form</header></h1>
 <br><br>
-<form method="post" action="/signup_mentor">
+<form method="post" action="/signup">
   <div class="form-group">
     <label for="mentor_sign_up">User Name</label>
-    <input name="username" type="text" class="form-control" id="mentee_name" placeholder="Please, enter a username, under 25 charcters.">
+    <input name="username" type="text" class="form-control" id="mentor_name" placeholder="<%= mentor.username %>">
   </div>
   <div class="form-group">
     <label for="mentor_sign_up">First Name</label>
-    <input name="f_name" type="text" class="form-control" id="mentee_f_name" placeholder="Enter your first name, under 20 charcters.">
+    <input name="f_name" type="text" class="form-control" id="mentor_f_name" placeholder="Enter your first name, under 20 charcters.">
   </div>
   <div class="form-group">
     <label for="mentor_sign_up">Last Name</label>
-    <input name="l_name" type="text" class="form-control" id="mentee_l_name" placeholder="Enter your last name, under 20 charcters.">
+    <input name="l_name" type="text" class="form-control" id="mentor_l_name" placeholder="Enter your last name, under 20 charcters.">
   </div>
 
    <div class="form-group">
     <label for="mentor_sign_up">Career Path</label>
-    <input name="career_path" type="text" class="form-control" id="mentee_career_path" placeholder="Enter your desired career_path
+    <input name="career_path" type="text" class="form-control" id="mentor_career_path" placeholder="Enter your desired career_path
   </div>
 
   <div class="form-group">
@@ -52,10 +59,6 @@
     <input name="personal_interests" type="text" class="form-control" id="personal_interests" placeholder="Please enter your personal_interests.">
   </div>
   <div class="form-group">
-    <label for="mentor_sign_up">Branch of Service</label>
-    <input name="branch" type="text" class="form-control" id="branch" placeholder="Branch of Sevice, ex: Army, Marines, Navy etc.">
-  </div>
-  <div class="form-group">
     <label for="exampleTextarea">Bio</label>
     <textarea name="bio" class="form-control" id="exampleTextarea" rows="3"></textarea>
   </div>
@@ -66,6 +69,5 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </div>
-<div class="container">
-<% include ./footer/footer %>
-</div>
+</body>
+</html>
