@@ -28,7 +28,7 @@ const queries = {
     return db.any('UPDATE mentees SET mentee=$1 WHERE id = $2 RETURNING mentee', [mentee.title, mentee.id]);
   },
   getOnementee(mentee) {
-    console.log(' this is the mentee from getOnementee, before the query', mentee)
+    // console.log(' this is the mentee from getOnementee, before the query', mentee)
     let user = db.one('SELECT * FROM mentees WHERE username = $1 AND password = $2', [mentee.login_username, mentee.login_password]);
     return user
   },
