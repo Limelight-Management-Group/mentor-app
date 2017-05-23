@@ -7,7 +7,7 @@ var morgan = require( 'morgan' );
 const bodyParser = require( 'body-parser' );
 const ejs = require( 'ejs' );
 const router = express.Router()
-
+const fs = require( 'fs' );
 const queries = require('./database/db')
 const mqueries = require('./database/mentordb')
 const path = require("path");
@@ -41,8 +41,8 @@ app.use( bodyParser.urlencoded( {
 app.use( session( {
   key: 'user_sid',
   secret: 'somerandonstuffs',
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   cookie: {
     expires: 600000
   }
@@ -52,14 +52,16 @@ app.use( session( {
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 
 app.use((req, res, next) => {
-    console.log('this is the usid: ', req.cookies.user_sid)
-    console.log('this is the session: ', req.session.user_sid)
-    if (req.cookies.user_sid && req.session.user_sid) {
+    console.log('this is the usid: ', req.cookies)
+    console.log('this is the session: ', req.session)
+    if (req.cookies.user_sid && req.session) {
         console.log('id check')
-        res.clearCookie('user_sid');        
-    }
+        res.clearCookie('user_sid');
+        next();        
+    } else {
     console.log('id else condition')
     next();
+    }
 });
 
 // middleware function to check for logged-in users
@@ -86,15 +88,15 @@ app.get('/', (req, res) => {
 })
 
 app.post('/profile', sessionChecker, (req, res) => {
-    console.log('this is the logins req.body!!!!!! ', req.body)
-    queries.getOnementee(req.params)
+    // console.log('this is the logins req.body!!!!!! ', req.body)
+    queries.getOnementee(req.body)
     .then( mentee => {
     console.log('this is the value of mentee: ', mentee)
 	res.render('profile', {mentee: mentee});
     })
 })
 app.get('/profile', (req, res) => {
-    console.log('this is the req.body!!!!!! ', req.body)
+    // console.log('this is the req.body!!!!!! ', req.params)
     queries.getOnementee(req.params)
     .then( mentee => {
     console.log('this is the value of mentee: ', mentee)
@@ -125,7 +127,7 @@ app.route('/mentee_signup')
 	})
 .then(user => {
 	req.session.user = user.dataValues;
-	res.redirect('/dashboard');
+	res.redirect('/login', {user});
 })
 .catch(error => {
 	console.log(error)
@@ -146,21 +148,29 @@ app.post('/login', (req, res) => {
 
        // console.log('this is the req.body: ', req.body)
        queries.getOnementee(mentee)
-        .then(function (user){
+        .then(user => {
              console.log('this si the user: ', user)
-
+             
             	// console.log(mentee.menteename)
             if (( mentee.username === req.body.username && mentee.password === req.body.password)){
             	console.log("yo! You're logged-in!!!!")
-                // console.log('this is the session', session)
-                res.redirect('/profile');
+                console.log('this is the user object', user)
+                var image = user.image
 
-            // }
+                
+                fs.writeFile('public/images/kanye-west-fan.jpg', image, 'binary', function(err){
+                    if (err) throw err
+                    console.log('File saved.')
+                    res.render('profile', {user, image});
+                })
+
+
+            
         	} else {
 
                 console.log('I did not login!!!:')
                 // req.session.mentee = user.dataValues;
-                res.render('profile');
+                res.render('/');
         	}
             
         }).catch(console.log)
