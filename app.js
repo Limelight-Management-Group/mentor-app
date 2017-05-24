@@ -160,9 +160,7 @@ app.post('/login', (req, res) => {
                 //     console.log('File saved.')
                     res.render('profile', {user});
                 // })
-            
         	} else {
-
                 console.log('I did not login!!!')
                 // req.session.mentee = user.dataValues;
                 res.render('/');
@@ -170,8 +168,6 @@ app.post('/login', (req, res) => {
             
         }).catch(console.log)
     });
-
-
 
 
 app.get('/react_profile', sessionChecker, (req, res) => {
