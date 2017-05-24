@@ -14,22 +14,46 @@
 <br><br>
 <ul id="messages"></ul>
     
-    <form method="post" action="/socket-chat">
-  <div class="form-group">
-    <label for="chatbox">Message Title</label>
-    <input name="title" type="text" class="form-control" id="title" placeholder="What's up, Doc?">
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="well">
+        <h3>Online users</h3>
+        <ul class="list-group"></ul>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="chat" id="chat">
+      <form id="messageForm">
+        <div class="form-group">
+          <label>Enter Message</label>
+          <%= {user} %>
+          <textarea class="form-control" id="message">
+          </textarea>
+          <br />
+          <input type="submit" name="chatSend" value="Send Message">
+        </div>
+      </form>  
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="chatbox">Message</label>
-    <input name="message" type="text-area" class="form-control" id="message" placeholder="Please, enter a message.">
-  </div>
-
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
 <br><br>
 <% include ./footer/footer %>
 </div>
 <script src="/socket.io/socket.io.js"></script>
+
 <script>
-  var socket = io();
-</script>	
+  $(function(){
+    var socket = io.connect();
+    var $messageForm = $('#messageForm');
+    var $message = $('#message');
+    var chat = $('#chat');
+
+    $messageForm.submit(e) => {
+      e.preventDefault();
+      socket.emit('send message', $message.val());
+      $message.val('');
+    }
+  });
+</script> 

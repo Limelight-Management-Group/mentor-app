@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 var sessionChecker = (req, res, next) => {
     if (req.cookies.user_sid) {
         
-        res.redirect('/');
+        res.redirect('/profile');
     } else {
         next();
     }    
@@ -85,27 +85,25 @@ app.get('/', (req, res) => {
 
 app.post('/profile', sessionChecker, (req, res) => {
     // console.log('this is the logins req.body!!!!!! ', req.body)
-    queries.getOnementee(req.body)
-    .then( mentee => {
-    // console.log('this is the value of mentee: ', mentee)
-	res.render('profile', {mentee: mentee});
+    queries.getOneuser(req.body)
+
+    .then( user => {
+    // console.log('this is the value of user: ', user)
+	res.render('profile', {user});
     })
 })
 app.get('/profile', (req, res) => {
-    // console.log('this is the req.body!!!!!! ', req.params)
-    queries.getOnementee(req.params)
-    .then( mentee => {
-    // console.log('this is the value of mentee: ', mentee)
-    res.render('profile', {mentee: mentee});
-    })
-   
+    // console.log('these are the req.params: ', req.params)
+    console.log('this is the session user!!: ', req.session.user)
+    res.render('profile', {user});
+    console.log('this is the value of user: ', user)   
 })
 
 app.get('/edit/:id', function(req, res){
-        queries.getOnementee(req.params.id)   
-        .then(mentee => {
-
-            res.render('mentee_edit', {mentee});             
+        queries.getOneuser(req.params.id)   
+        .then(user => {
+            console.log('this is the session user!!: ', req.session.user)
+            res.render('user_edit', {user});             
             })
     })
 
@@ -143,30 +141,31 @@ app.post('/login', (req, res) => {
        //  console.log('username', mentee.username)
 
        // console.log('this is the req.body: ', req.body)
-       queries.getOnementee(mentee)
+       queries.getOneuser(mentee)
         .then(user => {
              // console.log('this si the user: ', user)
              
             	// console.log(mentee.menteename)
             if (( mentee.username === req.body.username && mentee.password === req.body.password)){
+                // document.cookie = `username = ${user.username}`
             	console.log("yo! You're logged-in!!!!")
-                // console.log('this is the user object', user)
+                console.log('this is the user object', user.username)
                 var image = user.image
 
-                if(req.files){
-                    // console.log('these is the req.files', req.files)
-                }
-                fs.writeFile('public/images/kanye-west-fan.jpg', image, 'binary', function(err){
-                    if (err) throw err
-                    console.log('File saved.')
-                    res.render('profile', {user, image});
-                })
+                // if(req.files){
+                //     // console.log('these is the req.files', req.files)
+                // }
+                // fs.writeFile('public/images/kanye-west-fan.jpg', image, 'binary', function(err){
+                //     if (err) throw err
+                //     console.log('File saved.')
+                    res.render('profile', {user});
+                // })
 
 
             
         	} else {
 
-                console.log('I did not login!!!:')
+                console.log('I did not login!!!')
                 // req.session.mentee = user.dataValues;
                 res.render('/');
         	}
@@ -178,7 +177,7 @@ app.post('/login', (req, res) => {
 
 
 app.get('/react_profile', sessionChecker, (req, res) => {
-    queries.getOnementee(req.params)
+    queries.getOneuser(req.params)
     .then( mentee => {
 
         res.render('react_profile');
@@ -196,7 +195,7 @@ app.get('/signup', (req, res) => {
 	res.render('mentee_signup');
 })
 app.get('/edit/:id', (req, res) => {
-	queries.getOnementee(req.params.id)
+	queries.getOneuser(req.params.id)
 	.then( mentee => {
 		res.render('mentee_edit', {mentee})
 	})
@@ -227,10 +226,36 @@ app.post('/signup', (req, res) =>{
 })
 
 const port = process.env.PORT || 3000;
- var server = app.listen( port, () => {
-        var io = require('socket.io')(server);
-        io.on('connection', function(){ /* … */ });
-        console.log( 'the server is now running on port: ' + port );
-} );
+//  var server = app.listen( port, () => {
+//         var io = require('socket.io')(server);
+//         io.on('connection', function(){ /* … */ });
+//         console.log( 'the server is now running on port: ' + port );
+// } );
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+let users = [];
+let connections = [];
+
+server.listen(port);
+console.log('Welcome to Mentor, your server awaits!');
+
+
+io.sockets.on('connection', (socket) => {
+    connections.push(socket);
+    console.log('connected: %s sockets connected', connections.length)
+
+    //disconnect
+    socket.on('disconnect', (data) => {
+    connections.splice(connections.indexOf(socket), 1)
+    console.log("Disconnected: %s sockets connected", connections.length)        
+    });
+
+    //Send Message
+    socket.on('send message', (data) => {
+        console.log('this is the data:', data);
+        io.sockets.emit('new message', {msg: data});
+
+    });
+});
 
 module.exports = app;
