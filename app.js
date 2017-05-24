@@ -160,9 +160,6 @@ app.post('/login', (req, res) => {
                 //     console.log('File saved.')
                     res.render('profile', {user});
                 // })
-
-
-            
         	} else {
 
                 console.log('I did not login!!!')
