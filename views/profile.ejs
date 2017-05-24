@@ -5,14 +5,31 @@
 
     <br><br><br><br>
 <div class="container">
-<h1><header>This is the profile!!</header></h1>
 <br><br><br>
-<%= image %>
-	<div><img id="profile-img" src="../public/images/<%= image %>"></div>
+
 <!--  --><br><br><br>
 	<div id="profile-info">profile info</div>
 <br><br>
 	<div id="profile-bio">profile bio</div>
 <br><br>
+<ul id="messages"></ul>
+    
+    <form method="post" action="/socket-chat">
+  <div class="form-group">
+    <label for="chatbox">Message Title</label>
+    <input name="title" type="text" class="form-control" id="title" placeholder="What's up, Doc?">
+  </div>
+  <div class="form-group">
+    <label for="chatbox">Message</label>
+    <input name="message" type="text-area" class="form-control" id="message" placeholder="Please, enter a message.">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br><br>
 <% include ./footer/footer %>
 </div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+</script>	

@@ -208,6 +208,14 @@ app.post('/delete/:id', (req, res) => {
 	})
 })
 
+app.post('/socket-chat', (req, res) => {
+    console.log("hit the chat route!")
+    queries.sendMessage(req.body)
+    .then(chat_post =>{
+        console.log('gotteeemmm!', req.body)
+        res.render('profile')
+    }).catch('error')
+})
 
 app.post('/signup', (req, res) =>{
 	// console.log('req.body:' , req.body);
@@ -218,10 +226,11 @@ app.post('/signup', (req, res) =>{
 	 }).catch('error')
 })
 
-
 const port = process.env.PORT || 3000;
-app.listen( port, () => {
-  console.log( 'the server is now running on port: ' + port );
+ var server = app.listen( port, () => {
+        var io = require('socket.io')(server);
+        io.on('connection', function(){ /* … */ });
+        console.log( 'the server is now running on port: ' + port );
 } );
 
 module.exports = app;
