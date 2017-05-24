@@ -41,6 +41,9 @@
 <br><br>
 <% include ./footer/footer %>
 </div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
@@ -48,12 +51,16 @@
     var socket = io.connect();
     var $messageForm = $('#messageForm');
     var $message = $('#message');
-    var chat = $('#chat');
+    var $chat = $('#chat');
 
-    $messageForm.submit(e) => {
+    $messageForm.submit((e) => {
       e.preventDefault();
+      // console.log('submited')
       socket.emit('send message', $message.val());
       $message.val('');
-    }
+    });
+    socket.on('new message', (data)=>{
+      $chat.append('<div class="well">'+ data.msg +'</div>');
+    })
   });
 </script> 
