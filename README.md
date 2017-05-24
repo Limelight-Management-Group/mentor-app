@@ -25,7 +25,7 @@
 ### If this is your first time installing Postgres with Homebrew, you'll need to create a database with the following command in your terminal/ commandline:
     $ initdb /usr/local/var/postgres -E utf8
     
-### If you have never set up and run a PostgreSQL server, you may get this error:
+### If you have never set up and run a server with PostgreSQL, you may get this error:
     psql: could not connect to server: No such file or directory
     Is the server running locally and accepting
     connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
