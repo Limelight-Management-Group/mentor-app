@@ -8,6 +8,7 @@ body {
 
 #sign-in {
   margin: 5px 20px 5px 0px;
+  bo
 }
 #logo-nav{
 	height: 60px;
@@ -15,4 +16,15 @@ body {
 	padding-bottom: 20px;
 	margin-top: -9px;
 	margin-left: 10px;
+}
+#chatbox{
+	border-color: black;
+	font: 13px Helvetica, Arial; border-color: black;
+	border: 0; padding: 10px; width: 40%; margin-right: .5%; 
+}
+#chat-send{
+	width: 10%; background: rgb(130, 224, 255); border: none; padding: 10px;
+}
+#form-group{
+	 box-sizing: border-box;
 }

@@ -11,32 +11,40 @@ const db = pgp(connectionString);
 
 const queries = {
   getAll() {
-    return db.any('SELECT * FROM mentees');
+    return db.any('SELECT * FROM users');
   },
-  create(mentee) {
-    console.log('this is the mentee', mentee)
+  create(user) {
+    console.log('this is the user', user)
     return db.any(`
-      INSERT INTO mentees(username, password, f_name, l_name, email, education, career_path, mos, image, location, branch, age, personal_interest, bio) 
+      INSERT INTO users(username, password, f_name, l_name, email, education, career_path, mos, image, location, branch, age, personal_interest, bio) 
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-    `, [mentee.username, mentee.password, mentee.f_name, mentee.l_name, mentee.email, mentee.education, mentee.career_path, mentee.mos, mentee.image, mentee.location, mentee.branch, mentee.age, mentee.personal_interest, mentee.bio])
+    `, [user.username, user.password, user.f_name, user.l_name, user.email, user.education, user.career_path, user.mos, user.image, user.location, user.branch, user.age, user.personal_interest, user.bio])
     .catch(console.log)
   },
   delete(id) {
-    return db.none('DELETE from mentees WHERE id = $1', [id]);
+    return db.none('DELETE from users WHERE id = $1', [id]);
   },
-  edited(id, mentee) {
-    return db.any('UPDATE mentees SET mentee=$1 WHERE id = $2 RETURNING mentee', [mentee.title, mentee.id]);
+  edited(id, user) {
+    return db.any('UPDATE users SET user=$1 WHERE id = $2 RETURNING user', [user.title, user.id]);
   },
-  getOnementee(mentee) {
-    console.log(' this is the mentee from getOnementee, before the query', mentee)
-    let user = db.one('SELECT * FROM mentees WHERE username = $1 AND password = $2', [mentee.login_username, mentee.login_password]);
-    return user
+  getOneuser(user) {
+    // console.log(' this is the user from getOneuser, before the query', user)
+    let result = db.one('SELECT * FROM users WHERE username = $1 AND password = $2', [user.login_username, user.login_password]);
+    return result
   },
     getOnePhoto(photos) {
     console.log('photo from photos', photo)
-    const result = db.one('SELECT * FROM mentees WHERE image = $1', [mentee.image]);
+    const result = db.one('SELECT * FROM users WHERE image = $1', [user.image]);
     console.log("this is the result: ", result)
     return result
+  },
+    sendMessage(message) {
+    console.log('this is the message', message)
+    return db.any(`
+      INSERT INTO messages(title, message) 
+      VALUES($1, $2)
+    `, [message.title, message.message])
+    .catch(console.log)
   }
 };
 

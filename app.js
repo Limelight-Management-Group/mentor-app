@@ -11,6 +11,7 @@ const fs = require( 'fs' );
 const queries = require('./database/db')
 const mqueries = require('./database/mentordb')
 const path = require("path");
+const upload = require('express-fileupload');
 
 // var bcrypt = require('bcrypt');
 
@@ -52,8 +53,7 @@ app.use( session( {
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 
 app.use((req, res, next) => {
-    console.log('this is the usid: ', req.cookies)
-    console.log('this is the session: ', req.session)
+    
     if (req.cookies.user_sid && req.session) {
         console.log('id check')
         res.clearCookie('user_sid');
@@ -67,19 +67,15 @@ app.use((req, res, next) => {
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
     if (req.cookies.user_sid) {
-        console.log('in the session checker- req!!!!!: ', req)
-        console.log('in the session checker- res!!!!!: ', res)
-        console.log('im in the if of session')
+        
         res.redirect('/');
     } else {
-        console.log('this is the user session ', req.session)
-        console.log("I'm in the else condition")
         next();
     }    
 };
 
 app.get('/home', (req, res) => {
-	console.log('checking in from home! I should have title')
+	// console.log('checking in from home! I should have title')
 	res.render('home');
 })
 app.get('/', (req, res) => {
@@ -91,7 +87,7 @@ app.post('/profile', sessionChecker, (req, res) => {
     // console.log('this is the logins req.body!!!!!! ', req.body)
     queries.getOnementee(req.body)
     .then( mentee => {
-    console.log('this is the value of mentee: ', mentee)
+    // console.log('this is the value of mentee: ', mentee)
 	res.render('profile', {mentee: mentee});
     })
 })
@@ -99,7 +95,7 @@ app.get('/profile', (req, res) => {
     // console.log('this is the req.body!!!!!! ', req.params)
     queries.getOnementee(req.params)
     .then( mentee => {
-    console.log('this is the value of mentee: ', mentee)
+    // console.log('this is the value of mentee: ', mentee)
     res.render('profile', {mentee: mentee});
     })
    
@@ -143,21 +139,23 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
     	console.log('sent the post')
         var mentee = req.body
-        console.log(mentee)
+        // console.log(mentee)
        //  console.log('username', mentee.username)
 
        // console.log('this is the req.body: ', req.body)
        queries.getOnementee(mentee)
         .then(user => {
-             console.log('this si the user: ', user)
+             // console.log('this si the user: ', user)
              
             	// console.log(mentee.menteename)
             if (( mentee.username === req.body.username && mentee.password === req.body.password)){
             	console.log("yo! You're logged-in!!!!")
-                console.log('this is the user object', user)
+                // console.log('this is the user object', user)
                 var image = user.image
 
-                
+                if(req.files){
+                    // console.log('these is the req.files', req.files)
+                }
                 fs.writeFile('public/images/kanye-west-fan.jpg', image, 'binary', function(err){
                     if (err) throw err
                     console.log('File saved.')
@@ -210,20 +208,29 @@ app.post('/delete/:id', (req, res) => {
 	})
 })
 
+app.post('/socket-chat', (req, res) => {
+    console.log("hit the chat route!")
+    queries.sendMessage(req.body)
+    .then(chat_post =>{
+        console.log('gotteeemmm!', req.body)
+        res.render('profile')
+    }).catch('error')
+})
 
 app.post('/signup', (req, res) =>{
-	console.log('req.body:' , req.body);
+	// console.log('req.body:' , req.body);
 	queries.create(req.body)
 	 .then(mentee => {
-		console.log('this is the req.body', req.body)
+		// console.log('this is the req.body', req.body)
 		res.render('profile')
 	 }).catch('error')
 })
 
-
 const port = process.env.PORT || 3000;
-app.listen( port, () => {
-  console.log( 'the server is now running on port: ' + port );
+ var server = app.listen( port, () => {
+        var io = require('socket.io')(server);
+        io.on('connection', function(){ /* … */ });
+        console.log( 'the server is now running on port: ' + port );
 } );
 
 module.exports = app;
