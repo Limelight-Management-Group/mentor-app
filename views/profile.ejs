@@ -14,7 +14,7 @@
 <br><br>
 <ul id="messages"></ul>
     
-<div class="container">
+<div class="container" id="">
   <div class="row">
     <div class="col-md-4">
       <div class="well">
@@ -22,14 +22,15 @@
         <ul class="list-group"></ul>
       </div>
     </div>
+    
     <div class="col-md-8">
       <div class="chat" id="chat">
       <form id="messageForm">
         <div class="form-group">
           <label>Enter Message</label>
-          <%= {user} %>
           <textarea class="form-control" id="message">
           </textarea>
+          <input type="hidden" value={userId} id="userId"/>
           <br />
           <input type="submit" name="chatSend" value="Send Message">
         </div>
@@ -52,15 +53,17 @@
     var $messageForm = $('#messageForm');
     var $message = $('#message');
     var $chat = $('#chat');
+    var $userId = $('#userId')
 
     $messageForm.submit((e) => {
       e.preventDefault();
       // console.log('submited')
-      socket.emit('send message', $message.val());
+      socket.emit('send message', $message.val(), $userId.val());
       $message.val('');
     });
+
     socket.on('new message', (data)=>{
-      $chat.append('<div class="well">'+ data.msg +'</div>');
+      $chat.append('<div class="well">'+ data.msg +'</div>');x
     })
   });
 </script> 

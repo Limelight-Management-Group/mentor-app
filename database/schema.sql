@@ -50,10 +50,8 @@ mentor_id INTEGER
 DROP TABLE IF EXISTS messages;
 CREATE TABLE messages(
 id SERIAL PRIMARY KEY,
-title VARCHAR(35),
 message TEXT,
-sender INTEGER REFERENCES Users(id),
-reciever INTEGER REFERENCES Users(id)
+sender TEXT
 );
 
 -- DROP TABLE IF EXISTS mentorship;
