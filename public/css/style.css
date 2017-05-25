@@ -7,8 +7,17 @@ body {
 }
 
 #sign-in {
-  margin: 5px 20px 5px 0px;
-  bo
+  margin: 5px 20px 5px -15px;
+   padding: 18px 28px;
+   position: left;
+    font-size: 22px; 
+    margin-left: 420px;
+    margin-top: 0px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+  
 }
 #logo-nav{
 	height: 60px;
@@ -30,4 +39,21 @@ body {
 }
 #chatarea{
 	display: none;
+}
+.btn-xlg{
+    padding: 18px 28px;
+    font-size: 52px; //change this to your desired size
+    position: center;
+    margin-left: 420px;
+    margin-top: 0px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+}
+#home-logo{
+	height: 500px;
+	width: auto;
+	margin-left: 63px;
+	border-radius: 15px;
 }

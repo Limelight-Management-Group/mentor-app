@@ -97,7 +97,7 @@ app.get('/profile', (req, res) => {
     // console.log('this is the cookie!!!!!! ', req.cookies.user_id)
     var user_id = 1
     res.render('profile', {userId: user_id});
-    console.log('this is the value of user: ')   
+    console.log('this is the value of user: ', req.session)   
 })
 
 app.get('/edit/:id', function(req, res){
@@ -151,7 +151,7 @@ app.post('/login', (req, res) => {
             if (( user.username === username && user.password === password)){
                 // document.cookie = `username = ${user.username}`
                 console.log("yo! You're logged-in!!!!")
-                console.log('this is the user object', user)
+                console.log('this is the user object', req.session)
                 var image = user.image
                 req.session.user_id = user.id;
                 // if(req.files){
