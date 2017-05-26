@@ -9,8 +9,8 @@
 ### This project is a cool way for the Mentor team to help our fellow veterans, while we do what we enjoy doing. There are other really great mentorship application available, but we would like to help to create even more opportunities, because why not? Veterans give a lot. This is our attempt to pay it forward. Do you want to help out? Keep reading!
 ---
 # Link to Gist
-   [link to gist](https://gist.github.com/Limelight-Management-Group/1fb9e4500060bca8093c84568777ea5b)
-   [link to sprint 2 gist](https://gist.github.com/Limelight-Management-Group/429ceee47dbd5f5645e869d3d2250c7e)
+   [link to gist](https://gist.github.com/Limelight-Management-Group/1fb9e4500060bca8093c84568777ea5b) |
+   [link to sprint 2 gist](https://gist.github.com/Limelight-Management-Group/429ceee47dbd5f5645e869d3d2250c7e) |
 ---
 # Teachnology Used
 ## Built with:
