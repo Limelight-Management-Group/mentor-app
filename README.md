@@ -10,6 +10,7 @@
 ---
 # Link to Gist
    [link to gist](https://gist.github.com/Limelight-Management-Group/1fb9e4500060bca8093c84568777ea5b)
+   [link to sprint 2 gist](https://gist.github.com/Limelight-Management-Group/429ceee47dbd5f5645e869d3d2250c7e)
 ---
 # Teachnology Used
 ## Built with:
