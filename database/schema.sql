@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS mentor_app;
+-- DROP DATABASE IF EXISTS mentor_app;
 
-CREATE DATABASE mentor_app;
+-- CREATE DATABASE mentor_app;
 
-\c mentor_app
+-- \c mentor_app
 
 
 -- DROP TABLE IF EXISTS mentors;

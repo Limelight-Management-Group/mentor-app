@@ -1,15 +1,16 @@
-# Mentour App
+# Mentor App
 ***
-## Welcome to the Mentour App.
+## Welcome to the Mentor App.
 ### We're creating a mentorship platform for veterans.  
 #### Built for veterans by veterans.
 #### We would like to help veterans to find and connect to those with tools to help them build a path to their next career path.
 ---
 # Motivation
-### This project is a cool way for the Mentour team to help our fellow veterans, while we do what we enjoy doing. There are other really great mentorship application available, but we would like to help to create even more opportunities, because why not? Veterans give a lot. This is our attempt to pay it forward. Do you want to help out? Keep reading!
+### This project is a cool way for the Mentor team to help our fellow veterans, while we do what we enjoy doing. There are other really great mentorship application available, but we would like to help to create even more opportunities, because why not? Veterans give a lot. This is our attempt to pay it forward. Do you want to help out? Keep reading!
 ---
 # Link to Gist
-   [link to gist](https://gist.github.com/Limelight-Management-Group/1fb9e4500060bca8093c84568777ea5b)
+   [link to gist](https://gist.github.com/Limelight-Management-Group/1fb9e4500060bca8093c84568777ea5b) |
+   [link to sprint 2 gist](https://gist.github.com/Limelight-Management-Group/429ceee47dbd5f5645e869d3d2250c7e) |
 ---
 # Teachnology Used
 ## Built with:
@@ -24,6 +25,13 @@
     $ brew install postgresql
 ### If this is your first time installing Postgres with Homebrew, you'll need to create a database with the following command in your terminal/ commandline:
     $ initdb /usr/local/var/postgres -E utf8
+    
+### If you have never set up and run a server with PostgreSQL, you may get this error:
+    psql: could not connect to server: No such file or directory
+    Is the server running locally and accepting
+    connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+### Don't panic. Run this line, and you should not have any issues, going forward:
+    pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
 ### If you're in your project directory, you can run postgres and create the project database:
     $ psql
 ### You will then see your username set equal to the poundsign. It should look like the following:
@@ -52,24 +60,4 @@
     [nodemon] starting `node app app.js`
     the server is now running on port: 3000
 ***
-# Specifications
----
-- [x] Choose 3-5 issues from one or more JavaScript packages/libraries/repos that will take you a week to complete. If you finish early choose other issues.
-- [x] Open source project repo is forked.
-- [x] Include a gist with links to submitted PRs as your artifact.
-- [x] README.md in your gist artifact contains a description of the issues, the open source project they come from, and any other necessary instructions to test your code.
-- [x] Follow any guidelines established in the CONTRIBUTING.md file of the project repo (if there is one).
-- [x] PR is submitted with a link in the README.md
-- [x] All PRs pass all continuous integration tests (if applicable).
-- [x] All PRs include a clear description summarizing the changes made and referencing the issue addressed.
-- [x] Commit messages are concise and descriptive.
-- [x] Code is well formatted without any linting errors.
-- [x] Variables, functions, CSS classes, etc. are meaningfully named.
-- [x] Functions are small and serve a single purpose.
-- [x] Code is well organized into a meaningful file structure.
-- [x] Code follows design principles of existing codebase.
-### If changes are requested, make changes to get the PR merged.
----
-# Stretch
-- [x] Write a blog about the experience and add link to the artifact.
-    
+# Good luck, and thank you for join us with Mentor!
