@@ -13,6 +13,8 @@ const mqueries = require('./database/mentordb')
 const path = require("path");
 const upload = require('express-fileupload');
 const sockCookie = require('socket.io-cookie-parser');
+var passport = require('passport');
+
 
 // var bcrypt = require('bcrypt');
 
@@ -40,7 +42,7 @@ app.use( bodyParser.urlencoded( {
 } ) );
 
 // initialize express-session to allow us track the logged-in user across sessions.
-app.use( session( {
+app.use(session( {
   key: 'user_sid',
   secret: 'somerandonstuffs',
   resave: true,
@@ -64,6 +66,11 @@ app.use((req, res, next) => {
     }
 });
 
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
     if (req.cookies.user_sid) {
@@ -79,7 +86,9 @@ app.get('/home', (req, res) => {
 	res.render('home');
 })
 app.get('/', (req, res) => {
-    console.log('checking in from home!')
+    console.log('checking in from home!', req.cookies)
+    console.log('session check!', req.session)
+
     res.render('home');
 })
 
@@ -230,7 +239,7 @@ app.post('/signup', (req, res) =>{
      }).catch('error')
 })
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 //  var server = app.listen( port, () => {
 //         var io = require('socket.io')(server);
 //         io.on('connection', function(){ /* … */ });
@@ -244,6 +253,11 @@ io.use(sockCookie());
 server.listen(port);
 console.log('Welcome to Mentor, your server awaits!');
 
+// socket.io middleware, used to get access to the users session and id.
+
+// io.use(function(socket, next) {
+//     sessionMiddleware(socket.request, socket.request.res, next);
+// });
 
 io.sockets.on('connection', (socket) => {
     connections.push(socket);
@@ -251,7 +265,7 @@ io.sockets.on('connection', (socket) => {
     // console.log('this is the socket!!!!: ', socket)
     // console.log('these are the connections: ', connections)
     // console.log('this is the user cookie: ', socket.handshake.headers.cookie)
-    console.log('this is the message' )
+    console.log('this is the message', socket.request )
     //disconnect
 
     // console.log('socket', socket)
@@ -264,7 +278,7 @@ io.sockets.on('connection', (socket) => {
 
     //Send Message
     socket.on('send message', (data) => {
-        console.log('this is the data:', data);
+        console.log('this is the request: ', socket.request);
         console.log('this is the user sockcookie: ', socket.request.cookies.user_sid)
 
         io.sockets.emit('new message', {msg: data});
@@ -272,18 +286,22 @@ io.sockets.on('connection', (socket) => {
         queries.sendMessage(messageObj)
 
     });
-    // New User
-    socket.on('new user', (data, callback) => {
-        callback(true);
-        queries.getOneuser(req.params)
-        .then(data => {
-            // console.log('this si the data object: ', data);
-        data = req.params.username    
-        socket.username = data;
-        users.push(data)
-        updateUsernames()
-        })
-    })
+    // // New User
+    // socket.on('new user', (data, callback) => {
+    //     callback(true);
+    //     queries.getOneuser(req.params)
+    //     .then(data => {
+    //         console.log('this is the req from the socket: ', req)
+    //         // console.log('this si the data object: ', data);
+    //     data = req.params.username    
+    //     socket.username = data;
+    //     users.push(data)
+    //     updateUsernames()
+    //     console.log('this is the updated user names: ', updateUsernames())
+    //     console.log('this is the data: ', data)
+    //     console.log('these are the users: ', users)
+    //     })
+    // })
 
 });
 

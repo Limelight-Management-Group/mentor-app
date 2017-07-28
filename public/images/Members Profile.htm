@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)http://localhost:3000/profile -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="./Members Profile_files/app.js"></script>
+	<title>Members Profile</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./Members Profile_files/font-awesome.min.css">
+    <link href="./Members Profile_files/css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="library/bootstrap.css" /> -->
+     <link rel="stylesheet" href="./Members Profile_files/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     <link rel="stylesheet" href="./Members Profile_files/style.css">
+
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid row">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand imgContainer col-md-6 col-xs-6" href="http://localhost:3000/#top"><img id="logo-nav" src="./Members Profile_files/logo.jpg"></a> 
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right container-fluid">
+            <li><a href="http://localhost:3000/">Home</a></li>
+            <li><a href="http://localhost:3000/profile">Profile</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+
+
+    <br><br><br><br>
+<div class="container">
+<br><br><br>
+
+<!--  --><br><br><br>
+	<div id="profile-info">profile info</div>
+<br><br>
+	<div id="profile-bio">profile bio</div>
+<br><br>
+<ul id="messages"></ul>
+    
+<div class="container" id="">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="well">
+        <h3>Online users</h3>
+        <ul class="list-group"></ul>
+      </div>
+    </div>
+    
+    <div class="col-md-8">
+      <div class="chat" id="chat">
+      <form id="messageForm">
+        <div class="form-group">
+          <label>Enter Message</label>
+          <textarea class="form-control" id="message">          </textarea>
+          <input type="hidden" value="{userId}" id="userId">
+          <br>
+          <input type="submit" name="chatSend" value="Send Message">
+        </div>
+      </form>  
+      <div class="well">          this is the message</div><div class="well">send</div><div class="well">this is the session</div></div>
+    </div>
+  </div>
+</div>
+<br><br>
+<footer>
+  <h1>
+    here is some footer content
+  </h1>
+</footer>
+
+
+
+
+</div>
+<script type="text/javascript" src="./Members Profile_files/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="./Members Profile_files/socket.io.js"></script>
+
+<script>
+  $(function(){
+    var socket = io.connect();
+    var $messageForm = $('#messageForm');
+    var $message = $('#message');
+    var $chat = $('#chat');
+    var $userId = $('#userId')
+
+    $messageForm.submit((e) => {
+      e.preventDefault();
+      // console.log('submited')
+      socket.emit('send message', $message.val(), $userId.val());
+      $message.val('');
+    });
+
+    socket.on('new message', (data)=>{
+      $chat.append('<div class="well">'+ data.msg +'</div>');
+    })
+  });
+</script> 
+<iframe id="buffer_tpc_check" src="./Members Profile_files/tpc-check.html" data-info="The Buffer extension uses this iframe to automatically detect the browser&#39;s third-party cookies settings and offer the best experience based on those" style="display: none;"></iframe><span id="buffer-extension-hover-button" style="display: none; position: absolute; z-index: 8675309; width: 100px; height: 25px; background-image: url(&quot;chrome-extension://noojglkidnpfjbincgijbaiedldjfbhh/data/shared/img/buffer-hover-icon@1x.png&quot;); background-size: 100px 25px; opacity: 0.9; cursor: pointer;"></span></body></html>
