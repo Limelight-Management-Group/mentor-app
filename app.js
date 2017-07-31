@@ -4,6 +4,7 @@ var cookieParser = require( 'cookie-parser' );
 var session = require( 'express-session' );
 var morgan = require( 'morgan' );
 // var User = require('./models/user');
+var LocalStrategy = require('passport-local'),Strategy;
 const bodyParser = require( 'body-parser' );
 const ejs = require( 'ejs' );
 const router = express.Router()
@@ -14,9 +15,20 @@ const path = require("path");
 const upload = require('express-fileupload');
 const sockCookie = require('socket.io-cookie-parser');
 var passport = require('passport');
+const flash = require('connect-flash')
+/*
 
+<------BCRYPT BEGIN------->
 
-// var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+
+bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+  // Store hash in your password DB. 
+});
+*/
 
 //Properties of a component
 //state
@@ -68,7 +80,8 @@ app.use((req, res, next) => {
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(flash());
+ // use connect-flash for flash messages stored in session
 
 
 // middleware function to check for logged-in users
@@ -305,4 +318,7 @@ io.sockets.on('connection', (socket) => {
 
 });
 
+
+
+// require('./public/config/passport.js')(app); // load our routes and pass in our app and fully configured passport
 module.exports = app;
