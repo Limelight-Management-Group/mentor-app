@@ -8,11 +8,10 @@ const bodyParser = require( 'body-parser' );
 const ejs = require( 'ejs' );
 const router = express.Router()
 const fs = require( 'fs' );
-const queries = require('./database/db')
+// const queries = require('./database/db')
 const mqueries = require('./database/mentordb')
 const path = require("path");
 const upload = require('express-fileupload');
-const sockCookie = require('socket.io-cookie-parser');
 
 // var bcrypt = require('bcrypt');
 
@@ -27,7 +26,7 @@ const sockCookie = require('socket.io-cookie-parser');
 // set morgan to log info about our requests for development use.
 app.use( morgan( 'dev' ) );
 
-// initialize cookie-parser to allow us access to the cookies stored in the browser.
+// initialize cookie-parser to allow us access the cookies stored in the browser.
 app.use( cookieParser() );
 
 // direct requests to the public directory
@@ -57,6 +56,7 @@ app.use((req, res, next) => {
     
     if (req.cookies.user_sid && req.session) {
         console.log('id check')
+        res.clearCookie('user_sid');
         next();        
     } else {
     console.log('id else condition')
@@ -84,11 +84,12 @@ app.get('/', (req, res) => {
 })
 
 app.post('/profile', sessionChecker, (req, res) => {
+    // console.log('this is the logins req.body!!!!!! ', req.body)
     queries.getOneuser(req.body)
 
     .then( user => {
     // console.log('this is the value of user: ', user)
-    res.render('profile', {user});
+	res.render('profile', {user});
     })
 })
 app.get('/profile', (req, res) => {
@@ -103,30 +104,30 @@ app.get('/profile', (req, res) => {
 app.get('/edit/:id', function(req, res){
         queries.getOneuser(req.params.id)   
         .then(user => {
-            // console.log('this is the session user!!: ', req.session.user)
+            console.log('this is the session user!!: ', req.session.user)
             res.render('user_edit', {user});             
             })
     })
 
 app.route('/mentee_signup')
-    .get(sessionChecker, (req, res) => {
+	.get(sessionChecker, (req, res) => {
 
-    console.log('checking in from mentee home!')
-    res.render(__dirname + '/views/mentee_signup.ejs');
+	console.log('checking in from mentee home!')
+	res.render(__dirname + '/views/mentee_signup.ejs');
 })
 .post((req, res) => {
-    User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    })
+	User.create({
+		username: req.body.username,
+		email: req.body.email,
+		password: req.body.password
+	})
 .then(user => {
-    req.session.user = user.dataValues;
-    res.redirect('/login', {user});
+	req.session.user = user.dataValues;
+	res.redirect('/login', {user});
 })
 .catch(error => {
-    console.log(error)
-    res.redirect('/')
+	console.log(error)
+	res.redirect('/')
 })
 
 });
@@ -136,37 +137,36 @@ app.get('/login', (req, res) => {
         res.render(__dirname + '/views/login.ejs');
 });
 app.post('/login', (req, res) => {
-        console.log('sent the post')
+    	console.log('sent the post')
+        var mentee = req.body
         // console.log(mentee)
        //  console.log('username', mentee.username)
-       console.log('this is req.body from login: ', req.body)
+
        // console.log('this is the req.body: ', req.body)
-       var username = req.body.login_username;
-       var password = req.body.login_password;
-       queries.getOneuser(username, password)
+       queries.getOneuser(mentee)
         .then(user => {
              // console.log('this si the user: ', user)
              
-                // console.log(mentee.menteename)
-            if (( user.username === username && user.password === password)){
+            	// console.log(mentee.menteename)
+            if (( mentee.username === req.body.username && mentee.password === req.body.password)){
                 // document.cookie = `username = ${user.username}`
                 console.log("yo! You're logged-in!!!!")
                 console.log('this is the user object', req.session)
                 var image = user.image
-                req.session.user_id = user.id;
+
                 // if(req.files){
                 //     // console.log('these is the req.files', req.files)
                 // }
                 // fs.writeFile('public/images/kanye-west-fan.jpg', image, 'binary', function(err){
                 //     if (err) throw err
                 //     console.log('File saved.')
-                    res.redirect('/profile');
+                    res.render('profile', {user});
                 // })
-            } else {
+        	} else {
                 console.log('I did not login!!!')
                 // req.session.mentee = user.dataValues;
                 res.render('/');
-            }
+        	}
             
         }).catch(console.log)
     });
@@ -183,24 +183,24 @@ app.get('/react_profile', sessionChecker, (req, res) => {
 
 
 app.get('/mentor_signup', (req, res) => {
-    console.log('checking in from mentor home!')
-    res.render('mentor_signup');
+	console.log('checking in from mentor home!')
+	res.render('mentor_signup');
 })
 app.get('/signup', (req, res) => {
-    console.log('checking in from signup!')
-    res.render('mentee_signup');
+	console.log('checking in from signup!')
+	res.render('mentee_signup');
 })
 app.get('/edit/:id', (req, res) => {
-    queries.getOneuser(req.params.id)
-    .then( mentee => {
-        res.render('mentee_edit', {mentee})
-    })
+	queries.getOneuser(req.params.id)
+	.then( mentee => {
+		res.render('mentee_edit', {mentee})
+	})
 })
 app.post('/delete/:id', (req, res) => {
-    queries.delete(req.params.id)
-    .then( edits => {
-        res.render('home', {edits})
-    })
+	queries.delete(req.params.id)
+	.then( edits => {
+		res.render('home', {edits})
+	})
 })
 
 // app.post('/socket-chat', (req, res) => {
@@ -212,22 +212,13 @@ app.post('/delete/:id', (req, res) => {
 //     }).catch('error')
 // })
 
-// app.post('/store_messages', (req, res) => {
-//     console.log("hit the messages,!", req.body)
-//     queries.sendMessage(req.body)
-//     .then(chat_post =>{
-//         console.log('gotteeemmm!', req.body)
-//         res.render('profile')
-//     }).catch('error')
-// })
-
 app.post('/signup', (req, res) =>{
-    // console.log('req.body:' , req.body);
-    queries.create(req.body)
-     .then(mentee => {
-        // console.log('this is the req.body', req.body)
-        res.redirect('/profile')
-     }).catch('error')
+	// console.log('req.body:' , req.body);
+	queries.create(req.body)
+	 .then(mentee => {
+		// console.log('this is the req.body', req.body)
+		res.render('profile')
+	 }).catch('error')
 })
 
 const port = process.env.PORT || 3000;
@@ -237,54 +228,13 @@ const port = process.env.PORT || 3000;
 //         console.log( 'the server is now running on port: ' + port );
 // } );
 var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+// var io = require('socket.io').listen(server);
 let users = [];
 let connections = [];
-io.use(sockCookie());
+
 server.listen(port);
 console.log('Welcome to Mentor, your server awaits!');
 
 
-io.sockets.on('connection', (socket) => {
-    connections.push(socket);
-    console.log('connected: %s sockets connected', connections.length)
-    // console.log('this is the socket!!!!: ', socket)
-    // console.log('these are the connections: ', connections)
-    // console.log('this is the user cookie: ', socket.handshake.headers.cookie)
-    console.log('this is the message' )
-    //disconnect
-
-    // console.log('socket', socket)
-    // console.log('socket user_id', connections)
-    socket.on('disconnect', (data) => {
-        if(!socket.username) return;
-    connections.splice(connections.indexOf(socket), user_sid)
-    console.log("Disconnected: %s sockets connected", connections.length)        
-    });
-
-    //Send Message
-    socket.on('send message', (data) => {
-        console.log('this is the data:', data);
-        console.log('this is the user sockcookie: ', socket.request.cookies.user_sid)
-
-        io.sockets.emit('new message', {msg: data});
-        var messageObj = {sender: socket.request.cookies.user_sid, message: data }
-        queries.sendMessage(messageObj)
-
-    });
-    // New User
-    socket.on('new user', (data, callback) => {
-        callback(true);
-        queries.getOneuser(req.params)
-        .then(data => {
-            // console.log('this si the data object: ', data);
-        data = req.params.username    
-        socket.username = data;
-        users.push(data)
-        updateUsernames()
-        })
-    })
-
-});
 
 module.exports = app;

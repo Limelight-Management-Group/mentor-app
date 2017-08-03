@@ -44,7 +44,6 @@
     "react-dom": "^15.5.4",
     "sequelize": "^3.30.4",
     "socket.io": "^2.0.1",
-    "socket.io-cookie-parser": "^1.0.0",
     "webpack": "^2.5.1"
   },
   "devDependencies": {

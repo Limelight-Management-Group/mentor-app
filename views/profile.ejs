@@ -12,9 +12,9 @@
 <br><br>
 	<div id="profile-bio">profile bio</div>
 <br><br>
-<ul id="messages"></ul>
+<!-- <ul id="messages"></ul>
     
-<div class="container" id="">
+<div class="container">
   <div class="row">
     <div class="col-md-4">
       <div class="well">
@@ -22,15 +22,14 @@
         <ul class="list-group"></ul>
       </div>
     </div>
-    
     <div class="col-md-8">
       <div class="chat" id="chat">
       <form id="messageForm">
         <div class="form-group">
           <label>Enter Message</label>
+          <%#= {user} %>
           <textarea class="form-control" id="message">
           </textarea>
-          <input type="hidden" value={userId} id="userId"/>
           <br />
           <input type="submit" name="chatSend" value="Send Message">
         </div>
@@ -38,32 +37,30 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <br><br>
 <% include ./footer/footer %>
 </div>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
-<script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script> -->
 
-<script>
+<!-- <script>
   $(function(){
     var socket = io.connect();
     var $messageForm = $('#messageForm');
     var $message = $('#message');
     var $chat = $('#chat');
-    var $userId = $('#userId')
 
     $messageForm.submit((e) => {
       e.preventDefault();
       // console.log('submited')
-      socket.emit('send message', $message.val(), $userId.val());
+      socket.emit('send message', $message.val());
       $message.val('');
     });
-
     socket.on('new message', (data)=>{
-      $chat.append('<div class="well">'+ data.msg +'</div>');x
+      $chat.append('<div class="well">'+ data.msg +'</div>');
     })
   });
-</script> 
+</script>  -->

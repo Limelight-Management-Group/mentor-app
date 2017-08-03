@@ -27,9 +27,9 @@ const queries = {
   edited(id, user) {
     return db.any('UPDATE users SET user=$1 WHERE id = $2 RETURNING user', [user.title, user.id]);
   },
-  getOneuser(user, password) {
-    console.log(' this is the user from getOneuser, before the query', user)
-    let result = db.one('SELECT * FROM users WHERE username = $1 AND password = $2', [user, password]);
+  getOneuser(user) {
+    // console.log(' this is the user from getOneuser, before the query', user)
+    let result = db.one('SELECT * FROM users WHERE username = $1 AND password = $2', [user.login_username, user.login_password]);
     return result
   },
     getOnePhoto(photos) {
@@ -39,14 +39,13 @@ const queries = {
     return result
   },
     sendMessage(message) {
-    // console.log('this is the message', message)
+    console.log('this is the message', message)
     return db.any(`
-      INSERT INTO messages(sender, message) 
+      INSERT INTO messages(title, message) 
       VALUES($1, $2)
-    `, [message.sender, message.message])
-    .catch(console.log(message))
-  },
-
+    `, [message.title, message.message])
+    .catch(console.log)
+  }
 };
 
 module.exports = queries;
