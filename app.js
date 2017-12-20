@@ -8,8 +8,8 @@ const bodyParser = require( 'body-parser' );
 const ejs = require( 'ejs' );
 const router = express.Router()
 const fs = require( 'fs' );
-// const queries = require('./database/db')
-const mqueries = require('./database/mentordb')
+const queries = require('./database/db')
+// const mqueries = require('./database/mentordb')
 const path = require("path");
 const upload = require('express-fileupload');
 
@@ -86,19 +86,23 @@ app.get('/', (req, res) => {
 app.post('/profile', sessionChecker, (req, res) => {
     // console.log('this is the logins req.body!!!!!! ', req.body)
     queries.getOneuser(req.body)
-
     .then( user => {
-    // console.log('this is the value of user: ', user)
-	res.render('profile', {user});
+    console.log('this is the value of user: ', user)
+    // console.log(user,'<---userOBJ')   
+    res.render('profile', {user});
     })
 })
 app.get('/profile', (req, res) => {
+    queries.getOneuser(req.body)
+    .then(user => {
+        var user_id = 1
+        res.render('profile', {userId: user_id});
+        console.log('this is the value of user: ', req.session)
+        
+    }) 
     // console.log('these are the req.params: ', req.params)
     // console.log('this is the session user!!: ', req.session)
     // console.log('this is the cookie!!!!!! ', req.cookies.user_id)
-    var user_id = 1
-    res.render('profile', {userId: user_id});
-    console.log('this is the value of user: ', req.session)   
 })
 
 app.get('/edit/:id', function(req, res){
@@ -122,6 +126,7 @@ app.route('/mentee_signup')
 		password: req.body.password
 	})
 .then(user => {
+    console.log(user,'<--user')
 	req.session.user = user.dataValues;
 	res.redirect('/login', {user});
 })
@@ -139,7 +144,7 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
     	console.log('sent the post')
         var mentee = req.body
-        // console.log(mentee)
+        // console.log('mentee', mentee)
        //  console.log('username', mentee.username)
 
        // console.log('this is the req.body: ', req.body)
@@ -151,7 +156,7 @@ app.post('/login', (req, res) => {
             if (( mentee.username === req.body.username && mentee.password === req.body.password)){
                 // document.cookie = `username = ${user.username}`
                 console.log("yo! You're logged-in!!!!")
-                console.log('this is the user object', req.session)
+                // console.log('this is the user object', {user})
                 var image = user.image
 
                 // if(req.files){
@@ -159,7 +164,7 @@ app.post('/login', (req, res) => {
                 // }
                 // fs.writeFile('public/images/kanye-west-fan.jpg', image, 'binary', function(err){
                 //     if (err) throw err
-                //     console.log('File saved.')
+                    // console.log('user--->', user)
                     res.render('profile', {user});
                 // })
         	} else {
@@ -213,15 +218,15 @@ app.post('/delete/:id', (req, res) => {
 // })
 
 app.post('/signup', (req, res) =>{
-	// console.log('req.body:' , req.body);
+	console.log('req.body:' , req.body);
 	queries.create(req.body)
 	 .then(mentee => {
-		// console.log('this is the req.body', req.body)
+		console.log('this is the user', mentee)
 		res.render('profile')
 	 }).catch('error')
 })
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 //  var server = app.listen( port, () => {
 //         var io = require('socket.io')(server);
 //         io.on('connection', function(){ /* … */ });

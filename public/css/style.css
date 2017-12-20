@@ -58,5 +58,6 @@ body {
 	margin-left: 63px;
 	border-radius: 15px;
 }
-=======
->>>>>>> parent of 20c8f41... added body parser and parsed cookie, after I placed user id in session cookie; then, I extracted user id and associated it with each message sent. Still need to render db messages in view.
+.greeting{
+  color: red;
+}

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const bcrypt = require('bcrypt');
 
 const pgp = require('pg-promise')();
@@ -14,11 +15,11 @@ const queries = {
     return db.any('SELECT * FROM users');
   },
   create(user) {
-    console.log('this is the user', user)
+    // console.log('this is the user-->', user)
     return db.any(`
-      INSERT INTO users(username, password, f_name, l_name, email, education, career_path, mos, image, location, branch, age, personal_interest, bio) 
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-    `, [user.username, user.password, user.f_name, user.l_name, user.email, user.education, user.career_path, user.mos, user.image, user.location, user.branch, user.age, user.personal_interest, user.bio])
+      INSERT INTO users(username, password, f_name, l_name, email, education, career_path, mos, image, location, branch, age, personal_interest, bio, mentee, mentor_id) 
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+    `, [user.username, user.password, user.f_name, user.l_name, user.email, user.education, user.career_path, user.mos, user.image, user.location, user.branch, user.age, user.personal_interest, user.bio, user.mentee, user.mentor_id])
     .catch(console.log)
   },
   delete(id) {
@@ -46,6 +47,23 @@ const queries = {
     `, [message.title, message.message])
     .catch(console.log)
   }
-};
+  // },
+  // storeImage(image){
+  //     // read in image in raw format (as type Buffer):
+  //     fs.readFile('image.jpg', (err, imgData) => {
+  //       console.log('imageData', imgData)
+  //         // inserting data into column 'img' of type 'bytea':
+  //         return db.none(`INSERT INTO images(img) VALUES($1)`, [imgData])
+  //             .then(() => {
+  //                 // success;
+  //             })
+  //             .catch(error => {
+  //                 // error;
+  //             });
+  //     });
+  //     }  
+  // }
+}
+
 
 module.exports = queries;
